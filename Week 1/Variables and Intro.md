@@ -112,6 +112,12 @@ std::size_t -> An unsigned integer type for sizes
 #include <cstddef>
 std::size_t n = v.size();
 ```
+The Vector .size() function returns a size_t:
+An unsigned int type for sizes or indices of containers
+```cpp
+for(size_t i=0;i<v.size();++i)
+```
+
 ##### std::pair
 
 std::pair -> A pair of values (can be different types). 
