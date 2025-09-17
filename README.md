@@ -1,4 +1,4 @@
-# EECS 280 Notes – Fall 2029 (Prof. James Juett)
+# EECS 280 Notes – Fall 2025 (Prof. James Juett)
 
 Welcome to the official note repository for **EECS 280: Programming and Intro Data Structures** at the University of Michigan, taught by **Professor James Juett** during **Fall 2029**.
 
