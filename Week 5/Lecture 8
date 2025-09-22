@@ -1,0 +1,165 @@
+# Abstract Data Types in C++
+### Review: ADTs in C
+```cpp
+struct Triangle{
+    double a,b,c;
+}
+void Triangle_init(Triangle *tri, double a_in, double b_in, double c_in);
+
+int main(){
+    Triangle t1;
+    Triangle_init(&t1,3,4,5);
+}
+```
+
+
+We did not break the interface, as we did not directly reference 
+
+### ADTs in C++
+The original C lang provides struct, C++ has classes.
+
+```cpp
+class Triangle{
+private: 
+    double a;
+    double b;
+    double c;
+public:
+    Triangle(double a_in, double b_in, double c_in){//constructers
+    //code
+    }
+    double perimeter() const {}//code....
+};
+int main(){
+    Triangle t1(3,4,5);
+    cout << t1.perimeter();
+}
+```
+
+In *C style* we had to pass addresses of objects ourselves. In *C++ style*, compiler does it for us. 
+
+#### Addition of const Member Functions
+
+```cpp
+class Triangle{
+//Some code
+public:
+    Triangle(double a_in, double b_in, double c_in){//constructers
+    //code
+    }
+    double perimeter() const {
+        return this->a + this->b + this->c;
+    }
+};
+
+```
+We can see that const is added after the function, which applies to all the member variables and show that the object passed through must not be changed. 
+
+#### Member Functions
+-> You should reuse functionality wherever you can
+
+```cpp
+class Triangle{
+public:
+    void shrink(double s){
+        this->scale(1.0/s);
+    }
+}
+```
+
+Turns uot we do NOT need to use this->
+```cpp
+class Triangle{
+private:
+    double a,b,c;
+public:
+    void scale(double s){
+        a*=s;//this->a*=s;
+        b*=s;//this->b*=s;
+        c*=s;//this->c*=s;
+    }
+}
+```
+
+without having to use this->, compiler inserts it for you.
+
+### Member Accessibility
+Declare members with an access level
+- Public: Can be used anywhere
+- Private: Can only be used in **class scope**
+```cpp
+class Triangle{
+private: 
+    double a;
+    double b;
+    double c;
+public:
+    Triangle(double a_in, double b_in, double c_in){//constructers
+    //code
+    }
+    double perimeter() const {}//code....
+};
+int main(){
+    Triangle t1(3,4,5);
+    cout << t1.perimeter();
+    t1.a = -1;//not allowed, cannot access private variables(compile error) 
+}
+```
+Quick Question: Is it OK for a function to use private member variables from sone other class that is in the same class???
+
+```cpp
+class Triangle{
+private://code
+public:
+    bool isSame(const Triangle &someOtherTriangles){
+        return a == someOtherTriangle.a && b== someOtherTriangle.b ** c == someOtherTriangle.c;
+    }
+};
+```
+### Constructors
+Whenever you create an object of classt type, a constructor for that class is called on the object to initialize it. **Always**
+
+A constructor is basically a function, but you don't call it yourself. The compiler does it automatically.
+
+```cpp
+int main(){
+    Triangle t1;
+    Triangle t1(1,2,3);
+    Triangle t1 = triangle(1,2,3);
+}
+```
+Constructors are designated by the SAME name as the class.
+```cpp
+class Triangle{
+private:
+    double a,b,c;
+public:
+    Triangle(double a_in, double b_in, double c_in): a(a_in), b(b_in), c(c_in){
+
+    }//a member initializer list is a speical syntax for initializing members in a constructor. 
+}
+```
+The Order of Initialization depends on the declaration order. 
+By looking at the declaration of variable, it takes in input as a->b->c, not the order of the constructor. 
+
+You can make numerous constructors by overloading.
+```cpp
+class Triangle{
+private: 
+    double a,b,c;
+public:
+    Triangle():a(1),b(1),c(1){}
+    Triangle(double side): a(side), b(side), c(side){}
+    Triangle(double a_in, double b_in, double c_in): a(a_in), b(b_in), c(c_in){}
+};
+```
+
+Compiler oes provide some ctors. It takes in no arguments, and just initializes the class variables.
+
+Also, an implicitly defined copy constructor is provided.
+```cpp
+Person();
+Person(const Person &);
+```
+
+Copies each member from another class instance. 
